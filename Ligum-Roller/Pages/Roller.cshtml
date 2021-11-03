@@ -1,0 +1,52 @@
+﻿@page
+@model RollerModel
+
+<div class="text-center">
+	<h1 class="">Kód: @Model.Roller.Barcode</h1>
+	<h2 class="">@Model.Roller.Timestamp</h2>
+</div>
+
+<hr class="blank-hr">
+
+<form asp-route-id="@Model.Id" method="get">
+	<div class="form-actions no-color">
+		<p>
+			Hľadaj podľa vzdialeností:
+			<input type="hidden" asp-for="Id" />
+			<input id="searchInput" type="text" name="SearchString"
+				   value="@Model.SearchString" placeholder="Čísla oddelené čiarkou" size="40" />
+			<span id="searchClear">&#x2715;</span>
+			<input type="submit" value="Hľadať" class="btn btn-primary" />
+			<a class="btn btn-secondary" asp-page="./Index">Späť na všetky záznamy</a>
+			<a asp-page-handler="DownloadCsv" asp-route-id="@Model.Id" class="btn btn-info">Uložiť ako CSV</a>
+			<a asp-page="./DeleteRecord" asp-route-id="@Model.Id" class="btn btn-danger">Zmazať</a>
+		</p>
+	</div>
+</form>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th class="text-center">
+				Vzdiaľenosť (mm)
+			</th>
+			<th>
+				Priemer (mm)
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model.Measurements != null)
+			@foreach (var item in Model.Measurements)
+			{
+				<tr>
+					<td class="text-center">
+						@((int)item.Distance)
+					</td>
+					<td>
+						@(item.Diameter)
+					</td>
+				</tr>
+			}
+	</tbody>
+</table>

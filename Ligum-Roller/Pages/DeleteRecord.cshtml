@@ -1,0 +1,21 @@
+﻿@page
+@model Ligum_Roller.Pages.DeleteRecordModel
+@{
+}
+
+<h3>Ste si istý, že chcete zmazať tento záznam?</h3>
+<div>
+	<h4>Záznam</h4>
+	<hr />
+	<div>
+		<img src="~/csv_icon.png" alt="icon" width="50" height="50" style="margin-right: 10px">
+		@Model.Timestamp
+	</div>
+	<hr />
+
+	<form method="post">
+		<input type="hidden" asp-for="@Model.Id" />
+		<input type="submit" value="Zmazať" class="btn btn-danger" />
+		<a class="btn btn-secondary" href="@Request.Headers["Referer"].ToString()">Vrátiť sa späť</a>
+	</form>
+</div>

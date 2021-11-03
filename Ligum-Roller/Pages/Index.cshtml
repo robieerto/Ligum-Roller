@@ -1,0 +1,39 @@
+﻿@page
+@model IndexModel
+@{ 
+	DateTime? itemDateTime;
+}
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				Merania
+			</th>
+			<th>
+				<a asp-page="./DeleteAllRecords">Zmazať všetko</a>
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		@if (Model.Records != null)
+		@foreach (var item in Model.Records)
+		{
+		<tr>
+			<td>
+				@if ((itemDateTime = DataLayer.ParseDateTime(item)) != null)
+				{
+					<a asp-page="./Roller" asp-route-id="@item">
+						<img src="~/csv_icon.png" alt="icon" width="50" height="50" style="margin-right: 10px">
+						@itemDateTime
+					</a>
+				}
+			</td>
+			<td class="text-center-vertical">
+				<a asp-page="./DeleteRecord" asp-route-id="@item">Zmazať</a>
+			</td>
+		</tr>
+		}
+	</tbody>
+</table>

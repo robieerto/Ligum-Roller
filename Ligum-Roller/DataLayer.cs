@@ -38,18 +38,23 @@ namespace Ligum_Roller
 		{
 			try
 			{
+				var roller = new Roller();
 				var config = new CsvConfiguration(CultureInfo.InvariantCulture)
 				{
 					PrepareHeaderForMatch = args => args.Header.ToLower(),
 				};
-				using var strReader = new StringReader(csv);
-				using var csvReader = new CsvReader(strReader, CultureInfo.InvariantCulture);
-				var barcode = new { ciarovy_kod = "" };
-				var roller = new Roller
+				var strReader = new StringReader(csv);
+				var csvReader = new CsvReader(strReader, config);
+				using (strReader) using (csvReader)
 				{
-					Barcode = csvReader.GetRecords(barcode).First().ciarovy_kod,
-					Measurements = csvReader.GetRecords<Measurement>().ToList()
-				};
+					roller.Barcode = (string)((IDictionary<string, object>)
+						csvReader.GetRecords<dynamic>().First())["ciarovy_kod"];
+				}
+				using (strReader = new StringReader(csv))
+				using (csvReader = new CsvReader(strReader, config))
+				{
+					roller.Measurements = csvReader.GetRecords<Measurement>().ToList();
+				}
 				return roller;
 			}
 			catch (Exception)

@@ -33,9 +33,14 @@ namespace Ligum_Roller.Controllers
 			var timestamp = DataLayer.GetCurrentDateTimeStr();
 			var csvData = bodyData.Remove(bodyData.LastIndexOf('\n'));
 			Console.WriteLine(timestamp);
+
+			if (DataLayer.ParseCsv(csvData) == null)
+			{
+				return "Wrong format";
+			}
+
 			// save data
 			await DataLayer.SaveRecord(csvData, timestamp);
-
 			return "OK";
 		}
 

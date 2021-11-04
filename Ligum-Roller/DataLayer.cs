@@ -47,8 +47,8 @@ namespace Ligum_Roller
 				var csvReader = new CsvReader(strReader, config);
 				using (strReader) using (csvReader)
 				{
-					roller.Barcode = (string)((IDictionary<string, object>)
-						csvReader.GetRecords<dynamic>().First())["ciarovy_kod"];
+					csvReader.Read();
+					roller.Barcode = csvReader.GetRecord(new { ciarovy_kod = "" }).ciarovy_kod;
 				}
 				using (strReader = new StringReader(csv))
 				using (csvReader = new CsvReader(strReader, config))

@@ -15,6 +15,10 @@ namespace Ligum_Roller
 		public static readonly string dateTimeFormat = "dd-MM-yyyy_HH-mm-ss";
 		public static readonly string dataDir = "csvData" + Path.DirectorySeparatorChar;
 		public static readonly string path = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + dataDir;
+		static readonly CsvConfiguration csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
+		{
+			PrepareHeaderForMatch = args => args.Header.ToLower(),
+		};
 
 		public static string GetCurrentDateTimeStr()
 		{
@@ -38,28 +42,36 @@ namespace Ligum_Roller
 		{
 			try
 			{
-				var roller = new Roller();
-				var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+				using var strReader = new StringReader(csv);
+				using var csvReader = new CsvReader(strReader, csvConfig);
+				var measurements = csvReader.GetRecords<Measurement>().ToList();
+				string barcode = ParseCsvBarcode(csv);
+				var roller = new Roller()
 				{
-					PrepareHeaderForMatch = args => args.Header.ToLower(),
+					Measurements = measurements,
+					Barcode = barcode
 				};
-				var strReader = new StringReader(csv);
-				var csvReader = new CsvReader(strReader, config);
-				using (strReader) using (csvReader)
-				{
-					csvReader.Read();
-					roller.Barcode = csvReader.GetRecord(new { ciarovy_kod = "" }).ciarovy_kod;
-				}
-				using (strReader = new StringReader(csv))
-				using (csvReader = new CsvReader(strReader, config))
-				{
-					roller.Measurements = csvReader.GetRecords<Measurement>().ToList();
-				}
 				return roller;
 			}
 			catch (Exception)
 			{
 				return null;
+			}
+		}
+
+		public static string ParseCsvBarcode(string csv)
+		{
+			try
+			{
+				using var strReader = new StringReader(csv);
+				using var csvReader = new CsvReader(strReader, csvConfig);
+				csvReader.Read();
+				string barcode = csvReader.GetRecord(new { ciarovy_kod = "" }).ciarovy_kod;
+				return barcode;
+			}
+			catch (Exception)
+			{
+				return "";
 			}
 		}
 

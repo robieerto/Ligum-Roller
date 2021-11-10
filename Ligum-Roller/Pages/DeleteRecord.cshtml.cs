@@ -12,6 +12,7 @@ namespace Ligum_Roller.Pages
         [BindProperty(SupportsGet = true)]
         public string Id { get; set; }
         public DateTime? Timestamp { get; set; }
+        public string Barcode { get; set; }
 
         public async Task<IActionResult> OnGet()
         {
@@ -24,6 +25,7 @@ namespace Ligum_Roller.Pages
             {
                 return NotFound();
             }
+            Barcode = DataLayer.ParseCsvBarcode(data);
             Timestamp = DataLayer.ParseDateTime(Id);
             return Page();
         }

@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ligum_Roller.Models;
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -41,13 +42,19 @@ namespace Ligum_Roller.Controllers
 
 			// save data
 			await DataLayer.SaveRecord(csvData, timestamp);
+
 			return "OK";
 		}
 
-		[HttpGet]
-		public string Get()
+		[HttpGet("/[controller]/RecreateGraphs")]
+		public string RecreateGraphs()
 		{
-			return "OK";
+			var records = DataLayer.GetAllRecords();
+			foreach (var record in records)
+			{
+				DataLayer.CreateGraph(record);
+			}
+			return "Graphs recreated";
 		}
 	}
 }

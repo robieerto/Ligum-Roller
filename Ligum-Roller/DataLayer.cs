@@ -12,13 +12,15 @@ namespace Ligum_Roller
 {
 	public static class DataLayer
 	{
-		public static readonly string dateTimeFormat = "dd-MM-yyyy_HH-mm-ss";
-		public static readonly string dataDir = "csvData" + Path.DirectorySeparatorChar;
-		public static readonly string path = Directory.GetCurrentDirectory() + Path.DirectorySeparatorChar + dataDir;
+		static readonly string dateTimeFormat = "dd-MM-yyyy_HH-mm-ss";
 		static readonly CsvConfiguration csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
 		{
 			PrepareHeaderForMatch = args => args.Header.ToLower(),
 		};
+		static readonly char sep = Path.DirectorySeparatorChar;
+		static readonly string currDir = Directory.GetCurrentDirectory();
+		static readonly string path = $"{currDir}{sep}data{sep}csv{sep}";
+		static readonly string graphPath = $"{currDir}{sep}data{sep}graph{sep}";
 
 		public static string GetCurrentDateTimeStr()
 		{
@@ -84,10 +86,9 @@ namespace Ligum_Roller
 					Directory.CreateDirectory(path);
 				}
 				await File.WriteAllTextAsync(path + recordName + ".csv", data);
+				CreateGraph(recordName);
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 		}
 
 		public static async Task<string> ReadRecord(string recordName)
@@ -99,9 +100,7 @@ namespace Ligum_Roller
 					return await File.ReadAllTextAsync(path + recordName + ".csv");
 				}
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 			return null;
 		}
 
@@ -114,9 +113,7 @@ namespace Ligum_Roller
 					return await File.ReadAllBytesAsync(path + recordName + ".csv");
 				}
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 			return null;
 		}
 
@@ -140,24 +137,26 @@ namespace Ligum_Roller
 			try
 			{
 				File.Delete(path + recordName + ".csv");
+				File.Delete(graphPath + recordName + ".png");
 			}
-			catch (Exception)
-			{
-			}
+			catch (Exception) { }
 		}
 
 		public static void RemoveAllRecords()
 		{
-			try
+			foreach (var record in GetAllRecords())
 			{
-				foreach (var record in GetAllRecords())
+				try
 				{
 					RemoveRecord(record);
 				}
+				catch (Exception) { }
 			}
-			catch (Exception)
-			{
-			}
+		}
+
+		public static void CreateGraph(string recordName)
+		{
+			RunCmd.Run("script/graphCmd.py", path + recordName + ".csv");
 		}
 	}
 }

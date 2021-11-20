@@ -1,0 +1,77 @@
+﻿@model Ligum_Roller.Models.PdfInstance
+@{
+	var curDir = System.IO.Directory.GetCurrentDirectory();
+	char sep = System.IO.Path.DirectorySeparatorChar;
+}
+
+<html>
+<head>
+	<link href="@(curDir)@(sep)wwwroot@(sep)css@(sep)pdf.css" rel="stylesheet">
+</head>
+<body>
+	<table class="tg">
+		<tbody>
+			<tr>
+				<td class="tg-value" colspan="6" style="text-align: center">
+					<p class="p-text" style="float:left; font-weight:bold;">@Model.PdfConfig.CompanyName</p>
+					<p class="p-text" style="display: inline-block; font-size:medium">@Model.PdfConfig.Title</p>
+					<p class="p-text" style="float:right;">@Model.Roller.Timestamp</p>
+				</td>
+			</tr>
+			<tr>
+				<td class="tg-name">Kód produktu:</td>
+				<td class="tg-value">@Model.Roller.Barcode</td>
+				<td class="tg-empty"></td>
+				<td class="tg-name">@Model.PdfConfig.Property1[0]</td>
+				<td class="tg-value">@Model.PdfConfig.Property1[1]</td>
+				<td class="tg-logo" rowspan="3"><img id="logo" src="@(curDir)@(sep)wwwroot@(sep)logo.png" /></td>
+			</tr>
+			<tr>
+				<td class="tg-name">@Model.PdfConfig.Property2[0]</td>
+				<td class="tg-value">@Model.PdfConfig.Property2[1]</td>
+				<td class="tg-empty"></td>
+				<td class="tg-name">@Model.PdfConfig.Property3[0]</td>
+				<td class="tg-value">@Model.PdfConfig.Property3[1]</td>
+			</tr>
+			<tr>
+				<td class="tg-name">@Model.PdfConfig.Property4[0]</td>
+				<td class="tg-value">@Model.PdfConfig.Property4[1]</td>
+				<td class="tg-empty"></td>
+				<td class="tg-name">@Model.PdfConfig.Property5[0]</td>
+				<td class="tg-value">@Model.PdfConfig.Property5[1]</td>
+			</tr>
+
+		</tbody>
+	</table>
+
+	<hr class="blank-hr">
+	<img src="@(curDir)@(sep)data@(sep)graph@(sep)@(Model.Id).png" width="900" height="400" />
+	<table class="tg">
+		<thead>
+			<tr>
+				<th class="text-center">
+					Vzdiaľenosť (mm)
+				</th>
+				<th style="text-align: left;">
+					Priemer (mm)
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@if (Model.Roller.Measurements != null)
+				@foreach (var item in Model.Roller.Measurements)
+				{
+					<tr>
+						<td class="text-center">
+							@((int)item.Distance)
+						</td>
+						<td>
+							@(item.Diameter)
+						</td>
+					</tr>
+				}
+		</tbody>
+	</table>
+
+</body>
+</html>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using CsvHelper;
 using CsvHelper.Configuration;
@@ -19,8 +20,9 @@ namespace Ligum_Roller
 		};
 		static readonly char sep = Path.DirectorySeparatorChar;
 		static readonly string currDir = Directory.GetCurrentDirectory();
-		static readonly string path = $"{currDir}{sep}data{sep}csv{sep}";
-		static readonly string graphPath = $"{currDir}{sep}data{sep}graph{sep}";
+		static readonly string dataPath = $"{currDir}{sep}data{sep}";
+		static readonly string csvPath = $"{dataPath}csv{sep}";
+		static readonly string graphPath = $"{dataPath}graph{sep}";
 
 		public static string GetCurrentDateTimeStr()
 		{
@@ -81,11 +83,11 @@ namespace Ligum_Roller
 		{
 			try
 			{
-				if (!Directory.Exists(path))
+				if (!Directory.Exists(csvPath))
 				{
-					Directory.CreateDirectory(path);
+					Directory.CreateDirectory(csvPath);
 				}
-				await File.WriteAllTextAsync(path + recordName + ".csv", data);
+				await File.WriteAllTextAsync(csvPath + recordName + ".csv", data);
 				CreateGraph(recordName);
 			}
 			catch (Exception) { }
@@ -95,9 +97,9 @@ namespace Ligum_Roller
 		{
 			try
 			{
-				if (Directory.Exists(path))
+				if (Directory.Exists(csvPath))
 				{
-					return await File.ReadAllTextAsync(path + recordName + ".csv");
+					return await File.ReadAllTextAsync(csvPath + recordName + ".csv");
 				}
 			}
 			catch (Exception) { }
@@ -108,9 +110,9 @@ namespace Ligum_Roller
 		{
 			try
 			{
-				if (Directory.Exists(path))
+				if (Directory.Exists(csvPath))
 				{
-					return await File.ReadAllBytesAsync(path + recordName + ".csv");
+					return await File.ReadAllBytesAsync(csvPath + recordName + ".csv");
 				}
 			}
 			catch (Exception) { }
@@ -121,7 +123,7 @@ namespace Ligum_Roller
 		{
 			try
 			{
-				return Directory.GetFiles(path)
+				return Directory.GetFiles(csvPath)
 					.OrderByDescending(f => new FileInfo(f).CreationTime)
 					.Select(Path.GetFileNameWithoutExtension)
 					.ToList();
@@ -136,7 +138,7 @@ namespace Ligum_Roller
 		{
 			try
 			{
-				File.Delete(path + recordName + ".csv");
+				File.Delete(csvPath + recordName + ".csv");
 				File.Delete(graphPath + recordName + ".png");
 			}
 			catch (Exception) { }
@@ -156,7 +158,35 @@ namespace Ligum_Roller
 
 		public static void CreateGraph(string recordName)
 		{
-			RunCmd.Run("script/graphCmd.py", path + recordName + ".csv");
+			RunCmd.Run("graphCmd.py", csvPath + recordName + ".csv");
+		}
+
+		public static async Task SavePdfConfig(PdfConfig pdfConfig)
+		{
+			try
+			{
+				if (!Directory.Exists(dataPath))
+				{
+					Directory.CreateDirectory(dataPath);
+				}
+				var jsonString = JsonSerializer.Serialize(pdfConfig);
+				await File.WriteAllTextAsync(dataPath + "pdfConfig.json", jsonString);
+			}
+			catch (Exception) { }
+		}
+
+		public static async Task<PdfConfig> ReadPdfConfig()
+		{
+			try
+			{
+				if (Directory.Exists(csvPath))
+				{
+					var jsonString = await File.ReadAllTextAsync(dataPath + "pdfConfig.json");
+					return JsonSerializer.Deserialize<PdfConfig>(jsonString);
+				}
+			}
+			catch (Exception) { }
+			return new PdfConfig();
 		}
 	}
 }

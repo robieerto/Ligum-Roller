@@ -10,17 +10,20 @@
 
 <form asp-route-id="@Model.Id" method="get">
 	<div class="form-actions no-color">
-		<p>
-			Vzdialenosti:
-			<input type="hidden" asp-for="Id" />
-			<input id="searchInput" type="text" name="SearchString"
-				   value="@Model.SearchString" placeholder="Čísla oddelené čiarkou" size="40" />
-			<span id="searchClear">&#x2715;</span>
-			<input type="submit" value="Hľadať" class="btn btn-primary" />
+		<input type="hidden" asp-for="Id" />
+		<p class="text-center">
 			<a class="btn btn-secondary" asp-page="./Index">Späť na všetky záznamy</a>
-			<a href="graph/@(Model.Id).png" class="btn btn-success" target="_blank">Vykresli graf</a>
+			<a asp-page="./ConfigPdf" asp-route-id="@Model.Id" class="btn btn-success" style="width: 200px;">Vygenerovať protokol</a>
+			<a href="graph/@(Model.Id).png" class="btn btn-info" target="_blank">Vykresliť graf</a>
 			<a asp-page-handler="DownloadCsv" asp-route-id="@Model.Id" class="btn btn-info">Uložiť ako CSV</a>
 			<a asp-page="./DeleteRecord" asp-route-id="@Model.Id" class="btn btn-danger">Zmazať</a>
+		</p>
+		<hr />
+		<p>
+			Vzdialenosti:
+			<input id="searchInput" type="text" name="SearchString" value="@Model.SearchString" placeholder="Čísla oddelené čiarkou" size="50" />
+			<span id="searchClear">&#x2715;</span>
+			<input type="submit" value="Hľadať" class="btn btn-primary" />
 		</p>
 	</div>
 </form>

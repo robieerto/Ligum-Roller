@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Ligum_Roller.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Wkhtmltopdf.NetCore;
 
 namespace Ligum_Roller.Pages
 {
@@ -17,6 +18,10 @@ namespace Ligum_Roller.Pages
 		public string Id { get; set; }
 		[BindProperty(SupportsGet = true)]
 		public string SearchString { get; set; }
+
+		public RollerModel()
+		{
+		}
 
 		public async Task<IActionResult> OnGet()
 		{

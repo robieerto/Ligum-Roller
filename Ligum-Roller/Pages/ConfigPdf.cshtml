@@ -5,162 +5,131 @@
 	var formAction = (!globalConfig) ? "/GeneratePdf?id=" + Model.Id : "";
 }
 
-<html>
-<head>
-	<link href="./css/pdf.css" rel="stylesheet">
-</head>
-<body>
-	@if (Model.Success)
-	{
-		<div class="alert alert-success alert-dismissible">
-			Formát protokolu bol úspešne uložený.
-		</div>
-	}
-	@if (globalConfig)
-	{
-		<h3>Formát protokolu:</h3>
-	}
-	else
-	{
-		<h3>Protokol:</h3>
-	}
-	<form action="@formAction" method="post" target="@((globalConfig) ? "_self" : "_blank")">
-		<table class="tg">
-			<tbody>
-				<tr>
-					<td class="tg-value" colspan="6" style="text-align: center">
-						@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.CompanyName))
-						{
-							<input asp-for="PdfConfig.CompanyName" class="p-text" style="float:left; font-weight: bold;" />
-						}
-						else
-						{
-							<p class="p-text" style="float:left; font-weight:bold;">@Model.PdfConfig.CompanyName</p>
-							<input asp-for="PdfConfig.CompanyName" class="p-text" style="float:left; font-weight: bold;" hidden />
-						}
-						@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Title))
-						{
-							<input asp-for="PdfConfig.Title" class="p-text" style="display: inline-block; font-size:medium;" />
-						}
-						else
-						{
-							<p class="p-text" style="display: inline-block; font-size:medium">@Model.PdfConfig.Title</p>
-							<input asp-for="PdfConfig.Title" class="p-text" style="display: inline-block; font-size:medium;" hidden />
-						}
-						<p class="p-text" style="float:right;">@Model.Roller.Timestamp</p>
-					</td>
-				</tr>
-				<tr>
-					<td class="tg-name">Kód produktu:</td>
-					<td class="tg-value">@Model.Roller.Barcode</td>
-					<td class="tg-empty"></td>
-					@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property1[0]))
-					{
-						<td class="tg-name"><input asp-for="PdfConfig.Property1[0]" class="bold-input" /></td>
-					}
-					else
-					{
-						<td class="tg-name">@Model.PdfConfig.Property1[0]<input asp-for="PdfConfig.Property1[0]" class="bold-input" hidden /></td>
-					}
-					@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property1[1]))
-					{
-						<td class="tg-value"><input asp-for="PdfConfig.Property1[1]" /></td>
-					}
-					else
-					{
-						<td class="tg-value">@Model.PdfConfig.Property1[1]<input asp-for="PdfConfig.Property1[1]" hidden /></td>
-					}
-					<td class="tg-logo" rowspan="3"><img id="logo" src="./logo.png" /></td>
-				</tr>
-				<tr>
-					@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property2[0]))
-					{
-						<td class="tg-name"><input asp-for="PdfConfig.Property2[0]" class="bold-input" /></td>
-					}
-					else
-					{
-						<td class="tg-name">@Model.PdfConfig.Property2[0]<input asp-for="PdfConfig.Property2[0]" class="bold-input" hidden /></td>
-					}
-					@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property2[1]))
-					{
-						<td class="tg-value"><input asp-for="PdfConfig.Property2[1]" /></td>
-					}
-					else
-					{
-						<td class="tg-value">@Model.PdfConfig.Property2[1]<input asp-for="PdfConfig.Property2[1]" hidden /></td>
-					}
-					<td class="tg-empty"></td>
-					@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property3[0]))
-					{
-						<td class="tg-name"><input asp-for="PdfConfig.Property3[0]" class="bold-input" /></td>
-					}
-					else
-					{
-						<td class="tg-name">@Model.PdfConfig.Property3[0]<input asp-for="PdfConfig.Property3[0]" class="bold-input" hidden /></td>
-					}
-					@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property3[1]))
-					{
-						<td class="tg-value"><input asp-for="PdfConfig.Property3[1]" /></td>
-					}
-					else
-					{
-						<td class="tg-value">@Model.PdfConfig.Property3[1]><input asp-for="PdfConfig.Property3[1]" hidden /></td>
-					}
-				</tr>
-				<tr>
-					@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property4[0]))
-					{
-						<td class="tg-name"><input asp-for="PdfConfig.Property4[0]" class="bold-input" /></td>
-					}
-					else
-					{
-						<td class="tg-name">@Model.PdfConfig.Property4[0]<input asp-for="PdfConfig.Property4[0]" class="bold-input" hidden /></td>
-					}
-					@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property4[1]))
-					{
-						<td class="tg-value"><input asp-for="PdfConfig.Property4[1]" /></td>
-					}
-					else
-					{
-						<td class="tg-value">@Model.PdfConfig.Property4[1]<input asp-for="PdfConfig.Property4[1]" hidden /></td>
-					}
-					<td class="tg-empty"></td>
-					@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property5[0]))
-					{
-						<td class="tg-name"><input asp-for="PdfConfig.Property5[0]" class="bold-input" /></td>
-					}
-					else
-					{
-						<td class="tg-name">@Model.PdfConfig.Property5[0]<input asp-for="PdfConfig.Property5[0]" class="bold-input" hidden /></td>
-					}
-					@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property5[1]))
-					{
-						<td class="tg-value"><input asp-for="PdfConfig.Property5[1]" /></td>
-					}
-					else
-					{
-						<td class="tg-value">@Model.PdfConfig.Property5[1]<input asp-for="PdfConfig.Property5[1]" hidden /></td>
-					}
-				</tr>
+<link href="./css/pdf.css" rel="stylesheet">
 
-			</tbody>
-		</table>
+@if (Model.Success)
+{
+	<div class="alert alert-success alert-dismissible">
+		Formát protokolu bol úspešne uložený.
+	</div>
+}
+@if (globalConfig)
+{
+	<h3>Formát protokolu:</h3>
+}
+else
+{
+	<h3>Protokol:</h3>
+}
+<form action="@formAction" method="post" target="@((globalConfig) ? "_self" : "_blank")">
+	<table class="tg">
+		<tbody>
+			<tr>
+				<td class="tg-value" colspan="6" style="text-align: center">
+					@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.CompanyName))
+					{
+						<input asp-for="PdfConfig.CompanyName" class="p-text" style="float:left; font-weight: bold;" />
+					}
+					else
+					{
+						<p class="p-text" style="float:left; font-weight:bold;">@Model.PdfConfig.CompanyName</p>
+						<input asp-for="PdfConfig.CompanyName" class="p-text" style="float:left; font-weight: bold;" hidden />
+					}
+					@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Title))
+					{
+						<input asp-for="PdfConfig.Title" class="p-text" style="display: inline-block; font-size:medium;" />
+					}
+					else
+					{
+						<p class="p-text" style="display: inline-block; font-size:medium">@Model.PdfConfig.Title</p>
+						<input asp-for="PdfConfig.Title" class="p-text" style="display: inline-block; font-size:medium;" hidden />
+					}
+					<p class="p-text" style="float:right;">@Model.Roller.Timestamp</p>
+				</td>
+			</tr>
+			<tr>
+				<td class="tg-name">Kód produktu:</td>
+				<td class="tg-value">@Model.Roller.Barcode</td>
+				<td class="tg-empty"></td>
+				@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property1.Name))
+				{
+					<td class="tg-name"><input asp-for="PdfConfig.Property1.Name" class="bold-input" /></td>
+				}
+				else
+				{
+					<td class="tg-name">@Model.PdfConfig.Property1.Name<input asp-for="PdfConfig.Property1.Name" class="bold-input" hidden /></td>
+				}
+				<td class="tg-value"><input asp-for="PdfConfig.Property1.Value" /></td>
+				<td class="tg-logo" rowspan="3"><img id="logo" src="./logo.png" /></td>
+			</tr>
+			<tr>
+				@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property2.Name))
+				{
+					<td class="tg-name"><input asp-for="PdfConfig.Property2.Name" class="bold-input" /></td>
+				}
+				else
+				{
+					<td class="tg-name">@Model.PdfConfig.Property2.Name<input asp-for="PdfConfig.Property2.Name" class="bold-input" hidden /></td>
+				}
+				<td class="tg-value"><input asp-for="PdfConfig.Property2.Value" /></td>
+				<td class="tg-empty"></td>
+				@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property3.Name))
+				{
+					<td class="tg-name"><input asp-for="PdfConfig.Property3.Name" class="bold-input" /></td>
+				}
+				else
+				{
+					<td class="tg-name">@Model.PdfConfig.Property3.Name<input asp-for="PdfConfig.Property3.Name" class="bold-input" hidden /></td>
+				}
+				<td class="tg-value"><input asp-for="PdfConfig.Property3.Value" /></td>
+			</tr>
+			<tr>
+				@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property4.Name))
+				{
+					<td class="tg-name"><input asp-for="PdfConfig.Property4.Name" class="bold-input" /></td>
+				}
+				else
+				{
+					<td class="tg-name">@Model.PdfConfig.Property4.Name<input asp-for="PdfConfig.Property4.Name" class="bold-input" hidden /></td>
+				}
+				<td class="tg-value"><input asp-for="PdfConfig.Property4.Value" /></td>
+				<td class="tg-empty"></td>
+				@if (globalConfig || String.IsNullOrEmpty(Model.PdfConfig.Property5.Name))
+				{
+					<td class="tg-name"><input asp-for="PdfConfig.Property5.Name" class="bold-input" /></td>
+				}
+				else
+				{
+					<td class="tg-name">@Model.PdfConfig.Property5.Name<input asp-for="PdfConfig.Property5.Name" class="bold-input" hidden /></td>
+				}
+				<td class="tg-value"><input asp-for="PdfConfig.Property5.Value" /></td>
+			</tr>
 
-		<hr class="hr">
+		</tbody>
+	</table>
 
-		<div style="float:right">
-			@if (globalConfig)
-			{
-				<a class="btn btn-secondary" asp-page="./Index">Späť</a>
-				<input type="submit" value="Uložiť formát" class="btn btn-primary" />
-			}
-			else
-			{
-				<a class="btn btn-secondary" href="/Roller?id=@Model.Id">Späť</a>
-				<input type="submit" value="Vygenerovať protokol" class="btn btn-primary" target="_blank" />
-			}
-		</div>
-	</form>
+	<hr class="hr">
 
-</body>
-</html>
+	<p>
+		Počet hodnôt v tabuľke:
+		<input asp-for="PdfConfig.NumValues" />
+		<span asp-validation-for="PdfConfig.NumValues" class="text-danger"></span>
+	</p>
+
+	<div style="float:right">
+		@if (globalConfig)
+		{
+			<a class="btn btn-secondary" asp-page="./Index">Späť</a>
+			<input type="submit" value="Uložiť formát" class="btn btn-primary" />
+		}
+		else
+		{
+			<a class="btn btn-secondary" href="/Roller?id=@Model.Id">Späť</a>
+			<input type="submit" value="Vygenerovať protokol" class="btn btn-primary" target="_blank" />
+		}
+	</div>
+</form>
+
+@section Scripts {
+	@{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

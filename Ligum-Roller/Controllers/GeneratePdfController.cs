@@ -36,12 +36,11 @@ namespace Ligum_Roller.Controllers
 			{
 				return NotFound();
 			}
-			var model = new PdfInstance()
-			{
-				Id = Id,
-				Roller = DataLayer.ParseCsv(data),
-				PdfConfig = await DataLayer.ReadPdfConfig()
-			};
+
+			var roller = DataLayer.ParseCsv(data);
+			var pdfConfig = await DataLayer.ReadPdfConfig();
+			var model = new PdfInstance(Id, pdfConfig, roller);
+
 			if (model.Roller == null)
 			{
 				return StatusCode(500);
@@ -63,18 +62,16 @@ namespace Ligum_Roller.Controllers
 			{
 				return NotFound();
 			}
-			var model = new PdfInstance()
-			{
-				Id = Id,
-				Roller = DataLayer.ParseCsv(data),
-				PdfConfig = await DataLayer.ReadPdfConfig()
-			};
+
+			var roller = DataLayer.ParseCsv(data);
+			var pdfConfig = await DataLayer.ReadPdfConfig();
+			var model = new PdfInstance(Id, pdfConfig, roller);
+
 			if (model.Roller == null)
 			{
 				return StatusCode(500);
 			}
 			model.Roller.Timestamp = DataLayer.ParseDateTime(Id);
-			model.PdfConfig = PdfConfig;
 
 			return await _generatePdf.GetPdf("Views/ProtocolPdf.cshtml", model);
 		}

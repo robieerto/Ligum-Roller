@@ -56,6 +56,10 @@ namespace Ligum_Roller.Pages
 
 		public async Task<IActionResult> OnPost()
 		{
+			if (!ModelState.IsValid)
+			{
+				return StatusCode(400);
+			}
 			await DataLayer.SavePdfConfig(PdfConfig);
 			GlobalConfig = true;
 			Roller = new Roller()

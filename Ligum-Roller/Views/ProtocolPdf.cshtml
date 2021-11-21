@@ -22,31 +22,33 @@
 				<td class="tg-name">Kód produktu:</td>
 				<td class="tg-value">@Model.Roller.Barcode</td>
 				<td class="tg-empty"></td>
-				<td class="tg-name">@Model.PdfConfig.Property1[0]</td>
-				<td class="tg-value">@Model.PdfConfig.Property1[1]</td>
+				<td class="tg-name">@Model.PdfConfig.Property1.Name</td>
+				<td class="tg-value">@Model.PdfConfig.Property1.Value</td>
 				<td class="tg-logo" rowspan="3"><img id="logo" src="@(curDir)@(sep)wwwroot@(sep)logo.png" /></td>
 			</tr>
 			<tr>
-				<td class="tg-name">@Model.PdfConfig.Property2[0]</td>
-				<td class="tg-value">@Model.PdfConfig.Property2[1]</td>
+				<td class="tg-name">@Model.PdfConfig.Property2.Name</td>
+				<td class="tg-value">@Model.PdfConfig.Property2.Value</td>
 				<td class="tg-empty"></td>
-				<td class="tg-name">@Model.PdfConfig.Property3[0]</td>
-				<td class="tg-value">@Model.PdfConfig.Property3[1]</td>
+				<td class="tg-name">@Model.PdfConfig.Property3.Name</td>
+				<td class="tg-value">@Model.PdfConfig.Property3.Value</td>
 			</tr>
 			<tr>
-				<td class="tg-name">@Model.PdfConfig.Property4[0]</td>
-				<td class="tg-value">@Model.PdfConfig.Property4[1]</td>
+				<td class="tg-name">@Model.PdfConfig.Property4.Name</td>
+				<td class="tg-value">@Model.PdfConfig.Property4.Value</td>
 				<td class="tg-empty"></td>
-				<td class="tg-name">@Model.PdfConfig.Property5[0]</td>
-				<td class="tg-value">@Model.PdfConfig.Property5[1]</td>
+				<td class="tg-name">@Model.PdfConfig.Property5.Name</td>
+				<td class="tg-value">@Model.PdfConfig.Property5.Value</td>
 			</tr>
 
 		</tbody>
 	</table>
 
 	<hr class="blank-hr">
+
 	<img src="@(curDir)@(sep)data@(sep)graph@(sep)@(Model.Id).png" width="900" height="400" />
-	<table class="tg">
+
+	<table class="tg pdf-tg">
 		<thead>
 			<tr>
 				<th class="text-center">
@@ -58,15 +60,15 @@
 			</tr>
 		</thead>
 		<tbody>
-			@if (Model.Roller.Measurements != null)
-				@foreach (var item in Model.Roller.Measurements)
+			@if (Model.PdfMeasurements != null)
+				@foreach (var item in Model.PdfMeasurements)
 				{
 					<tr>
 						<td class="text-center">
 							@((int)item.Distance)
 						</td>
 						<td>
-							@(item.Diameter)
+							@String.Format("{0:0.000}", item.Diameter)
 						</td>
 					</tr>
 				}

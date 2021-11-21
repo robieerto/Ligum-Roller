@@ -12,9 +12,9 @@
 	<div class="form-actions no-color">
 		<input type="hidden" asp-for="Id" />
 		<p class="text-center">
-			<a class="btn btn-secondary" asp-page="./Index">Späť na všetky záznamy</a>
+			<a class="btn btn-secondary" asp-page="./Index">Späť na všetky merania</a>
 			<a asp-page="./ConfigPdf" asp-route-id="@Model.Id" class="btn btn-success" style="width: 200px;">Vygenerovať protokol</a>
-			<a href="graph/@(Model.Id).png" class="btn btn-info" target="_blank">Vykresliť graf</a>
+			<a href="graph/@(Model.Id).png" class="btn btn-info" target="_blank">Zobraziť graf</a>
 			<a asp-page-handler="DownloadCsv" asp-route-id="@Model.Id" class="btn btn-info">Uložiť ako CSV</a>
 			<a asp-page="./DeleteRecord" asp-route-id="@Model.Id" class="btn btn-danger">Zmazať</a>
 		</p>
@@ -40,15 +40,15 @@
 		</tr>
 	</thead>
 	<tbody>
-		@if (Model.Measurements != null)
-			@foreach (var item in Model.Measurements)
+		@if (Model.Roller.Measurements != null)
+			@foreach (var item in Model.Roller.Measurements)
 			{
 				<tr>
 					<td class="text-center">
 						@((int)item.Distance)
 					</td>
 					<td>
-						@(item.Diameter)
+						@String.Format("{0:0.000}", item.Diameter)
 					</td>
 				</tr>
 			}

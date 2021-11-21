@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -13,10 +14,9 @@ namespace Ligum_Roller.Pages
 	public class RollerModel : PageModel
 	{
 		public Roller Roller { get; set; }
-		public ICollection<Measurement> Measurements { get; set; }
 		[BindProperty(SupportsGet = true)]
 		public string Id { get; set; }
-		[BindProperty(SupportsGet = true)]
+		[BindProperty(SupportsGet = true), StringLength(1000)]
 		public string SearchString { get; set; }
 
 		public RollerModel()
@@ -40,9 +40,8 @@ namespace Ligum_Roller.Pages
 				return StatusCode(500);
 			}
 			Roller.Timestamp = DataLayer.ParseDateTime(Id);
-			Measurements = Roller.Measurements;
 
-			if (!string.IsNullOrEmpty(SearchString) && Measurements != null)
+			if (!string.IsNullOrEmpty(SearchString) && Roller.Measurements != null)
 			{
 				// comma separated decimal values
 				var decNumRegex = @"[+-]?([0-9]*[.])?[0-9]+";
@@ -54,7 +53,7 @@ namespace Ligum_Roller.Pages
 						.Where(n => !string.IsNullOrEmpty(n))
 						.Select(n => (int)double.Parse(n))
 						.ToList();
-					Measurements = Roller.Measurements
+					Roller.Measurements = Roller.Measurements
 						.Where(m => searchNums.Exists(n => ((int)m.Distance).Equals(n)))
 						.ToList();
 				}

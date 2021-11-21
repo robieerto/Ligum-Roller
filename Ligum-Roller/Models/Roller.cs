@@ -10,6 +10,6 @@ namespace Ligum_Roller.Models
 	{
 		public DateTime? Timestamp { get; set; }
 		public string Barcode { get; set; }
-		public ICollection<Measurement> Measurements { get; set; }
+		public IEnumerable<Measurement> Measurements { get; set; }
 	}
 }

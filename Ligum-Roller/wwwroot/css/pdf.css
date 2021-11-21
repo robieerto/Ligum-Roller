@@ -62,6 +62,14 @@
 	background-color: white;
 }
 
+.pdf-tg {
+	margin-top: 50px;
+}
+
+.pdf-tg td {
+	padding: 5px 5px;
+}
+
 .bold-input {
 	font-weight: bold;
 	width: 152px;

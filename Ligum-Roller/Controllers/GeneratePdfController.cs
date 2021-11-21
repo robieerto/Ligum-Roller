@@ -38,7 +38,7 @@ namespace Ligum_Roller.Controllers
 			}
 
 			var roller = DataLayer.ParseCsv(data);
-			var pdfConfig = await DataLayer.ReadPdfConfig();
+			var pdfConfig = PdfConfig ?? await DataLayer.ReadPdfConfig();
 			var model = new PdfInstance(Id, pdfConfig, roller);
 
 			if (model.Roller == null)
@@ -64,7 +64,7 @@ namespace Ligum_Roller.Controllers
 			}
 
 			var roller = DataLayer.ParseCsv(data);
-			var pdfConfig = await DataLayer.ReadPdfConfig();
+			var pdfConfig = PdfConfig ?? await DataLayer.ReadPdfConfig();
 			var model = new PdfInstance(Id, pdfConfig, roller);
 
 			if (model.Roller == null)

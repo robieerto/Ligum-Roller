@@ -158,7 +158,7 @@ namespace Ligum_Roller
 
 		public static void CreateGraph(string recordName)
 		{
-			RunCmd.Run("graphCmd.py", csvPath + recordName + ".csv");
+			Console.WriteLine(RunCmd.Run("graphCmd" + sep + "graphCmd.exe", csvPath + recordName + ".csv"));
 		}
 
 		public static async Task SavePdfConfig(PdfConfig pdfConfig)

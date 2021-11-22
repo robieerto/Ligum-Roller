@@ -24,22 +24,29 @@ namespace Ligum_Roller.Models
 
 		private void SetPdfMeasurements()
 		{
-			var lastDist = Roller.Measurements.Last().Distance - _offsetDist;
-			var allValues = Roller.Measurements
-				.Where(m => (m.Distance >= _offsetDist) && (m.Distance <= lastDist))
-				.ToList();
-			var reducedIdxs = GetReducedIdxs(allValues);
-			// if we have less values than it would be reduced ones
-			if (reducedIdxs == null)
+			try
 			{
-				PdfMeasurements = allValues;
-			}
-			else {
-				PdfMeasurements = new List<Measurement>();
-				foreach (int idx in reducedIdxs)
+				var lastDist = Roller.Measurements.Last().Distance - _offsetDist;
+				var allValues = Roller.Measurements
+					.Where(m => (m.Distance >= _offsetDist) && (m.Distance <= lastDist))
+					.ToList();
+				var reducedIdxs = GetReducedIdxs(allValues);
+				// if we have less values than it would be reduced ones
+				if (reducedIdxs == null)
 				{
-					PdfMeasurements.Add(allValues[idx]);
+					PdfMeasurements = allValues;
 				}
+				else
+				{
+					PdfMeasurements = new List<Measurement>();
+					foreach (int idx in reducedIdxs)
+					{
+						PdfMeasurements.Add(allValues[idx]);
+					}
+				}
+			}
+			catch (Exception) {
+				PdfMeasurements = new List<Measurement>();
 			}
 		}
 

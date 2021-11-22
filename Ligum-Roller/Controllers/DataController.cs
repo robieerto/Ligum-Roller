@@ -46,6 +46,12 @@ namespace Ligum_Roller.Controllers
 			return "OK";
 		}
 
+		[HttpGet]
+		public string Get()
+		{
+			return "OK";
+		}
+
 		[HttpGet("/[controller]/RecreateGraphs")]
 		public string RecreateGraphs()
 		{

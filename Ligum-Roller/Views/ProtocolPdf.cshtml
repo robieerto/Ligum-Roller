@@ -1,11 +1,12 @@
 ﻿@model Ligum_Roller.Models.PdfInstance
 @{
+	var curDir = System.IO.Directory.GetCurrentDirectory();
 	char sep = System.IO.Path.DirectorySeparatorChar;
 }
 
 <html>
 <head>
-	<link href="wwwroot@(sep)css@(sep)pdf.css" rel="stylesheet">
+	<link href="@(curDir)@(sep)wwwroot@(sep)css@(sep)pdf.css" rel="stylesheet">
 </head>
 <body>
 	<table class="tg">
@@ -23,7 +24,7 @@
 				<td class="tg-empty"></td>
 				<td class="tg-name">@Model.PdfConfig.Property1.Name</td>
 				<td class="tg-value">@Model.PdfConfig.Property1.Value</td>
-				<td class="tg-logo" rowspan="3"><img id="logo" src="wwwroot@(sep)logo.png" /></td>
+				<td class="tg-logo" rowspan="3"><img id="logo" src="@(curDir)@(sep)wwwroot@(sep)logo.png" /></td>
 			</tr>
 			<tr>
 				<td class="tg-name">@Model.PdfConfig.Property2.Name</td>
@@ -45,7 +46,7 @@
 
 	<hr class="blank-hr">
 
-	<img src="data@(sep)graph@(sep)@(Model.Id).png" width="900" height="400" />
+	<img src="@(curDir)@(sep)data@(sep)graph@(sep)@(Model.Id).png" width="900" height="400" />
 
 	<table class="tg pdf-tg">
 		<thead>

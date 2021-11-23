@@ -7,7 +7,7 @@
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
     <StartupObject>Ligum_Roller.Program</StartupObject>
     <Platforms>AnyCPU;x86</Platforms>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <UserSecretsId>680dc4bc-b7df-4f97-b36b-93007d5a8b72</UserSecretsId>
   </PropertyGroup>
 

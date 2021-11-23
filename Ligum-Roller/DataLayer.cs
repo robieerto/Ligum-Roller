@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using CsvHelper;
@@ -14,16 +15,16 @@ namespace Ligum_Roller
 {
 	public static class DataLayer
 	{
-		static readonly string dateTimeFormat = "dd-MM-yyyy_HH-mm-ss";
+		public const string dateTimeFormat = "dd-MM-yyyy_HH-mm-ss";
+		public static readonly char sep = Path.DirectorySeparatorChar;
+		public static readonly string exeDir = AppContext.BaseDirectory;
+		public static readonly string dataPath = $"{exeDir}data{sep}";
+		public static readonly string csvPath = $"{dataPath}csv{sep}";
+		public static readonly string graphPath = $"{dataPath}graph{sep}";
 		static readonly CsvConfiguration csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)
 		{
 			PrepareHeaderForMatch = args => args.Header.ToLower(),
 		};
-		static readonly char sep = Path.DirectorySeparatorChar;
-		static readonly string currDir = Directory.GetCurrentDirectory();
-		static readonly string dataPath = $"{currDir}{sep}data{sep}";
-		static readonly string csvPath = $"{dataPath}csv{sep}";
-		static readonly string graphPath = $"{dataPath}graph{sep}";
 
 		public static string GetCurrentDateTimeStr()
 		{

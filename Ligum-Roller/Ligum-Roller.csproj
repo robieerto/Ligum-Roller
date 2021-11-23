@@ -6,14 +6,21 @@
     <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
     <StartupObject>Ligum_Roller.Program</StartupObject>
+    <!--<RuntimeIdentifier>win7-x64</RuntimeIdentifier>-->
     <Platforms>AnyCPU;x86</Platforms>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <UserSecretsId>680dc4bc-b7df-4f97-b36b-93007d5a8b72</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="27.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.19" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Compilers" Version="4.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Net.Compilers" Version="4.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Wkhtmltopdf.NetCore" Version="3.0.2" />
   </ItemGroup>
 

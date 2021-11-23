@@ -14,16 +14,17 @@ namespace Ligum_Roller
 {
 	public class Program
 	{
-		public static void Main(string[] args)
+		public static async Task Main(string[] args)
 		{
 			Directory.SetCurrentDirectory(AppContext.BaseDirectory);
 			Directory.CreateDirectory(DataLayer.csvPath);
 			Directory.CreateDirectory(DataLayer.graphPath);
-			CreateHostBuilder(args).Build().Run();
+			await CreateHostBuilder(args).Build().RunAsync();
 		}
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
 			Host.CreateDefaultBuilder(args)
+				.UseWindowsService()
 				.ConfigureLogging((hostBuilderContext, logging) =>
 				{
 					logging.AddFileLogger(options =>

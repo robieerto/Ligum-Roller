@@ -3,9 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>Ligum_Roller</RootNamespace>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
     <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
     <StartupObject>Ligum_Roller.Program</StartupObject>
     <Platforms>AnyCPU;x86</Platforms>
+    <OutputType>WinExe</OutputType>
+    <UserSecretsId>680dc4bc-b7df-4f97-b36b-93007d5a8b72</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +18,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="data\csv\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="data\graph\**">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Rotativa\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -27,17 +36,10 @@
     <None Update="hosting.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="graphCmd.py">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <Target Name="CreateDirectories" AfterTargets="Build">
     <MakeDir Directories="$(OutDir)data\csv" />
     <MakeDir Directories="$(OutDir)data\graph" />
   </Target>
-
-  <ItemGroup>
-  </ItemGroup>
-
 </Project>

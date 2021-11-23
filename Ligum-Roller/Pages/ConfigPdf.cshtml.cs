@@ -5,18 +5,26 @@ using System.Threading.Tasks;
 using Ligum_Roller.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 
 namespace Ligum_Roller.Pages
 {
     public class ConfigPdfModel : PageModel
     {
-        public Roller Roller { get; set; }
+        private readonly ILogger _logger;
+
+		public Roller Roller { get; set; }
         [BindProperty(SupportsGet = true)]
         public string Id { get; set; }
 		[BindProperty]
 		public PdfConfig PdfConfig { get; set; }
 		public bool GlobalConfig { get; set; }
 		public bool Success { get; set; }
+
+		public ConfigPdfModel(ILogger<ConfigPdfModel> logger)
+		{
+			_logger = logger;
+		}
 
 		public async Task<IActionResult> OnGet()
         {
@@ -68,6 +76,7 @@ namespace Ligum_Roller.Pages
 				Barcode = "èiarový kód"
 			};
 
+			_logger.LogInformation("Changed PDF protocol config");
 			Success = true;
 			return Page();
 		}

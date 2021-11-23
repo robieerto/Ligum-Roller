@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using CsvHelper;
 using CsvHelper.Configuration;
 using Ligum_Roller.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Ligum_Roller
 {
@@ -79,7 +80,7 @@ namespace Ligum_Roller
 			}
 		}
 
-		public static async Task SaveRecord(string data, string recordName)
+		public static async Task SaveRecord(string data, string recordName, ILogger logger)
 		{
 			try
 			{
@@ -87,8 +88,16 @@ namespace Ligum_Roller
 				{
 					Directory.CreateDirectory(csvPath);
 				}
+				logger.LogInformation("Saved record {id}", recordName);
 				await File.WriteAllTextAsync(csvPath + recordName + ".csv", data);
-				CreateGraph(recordName);
+				if (CreateGraph(recordName))
+				{
+					logger.LogInformation("Generated graph {id}", recordName);
+				}
+				else
+				{
+					logger.LogError("Error generating graph {id}", recordName);
+				}
 			}
 			catch (Exception) { }
 		}
@@ -156,9 +165,9 @@ namespace Ligum_Roller
 			}
 		}
 
-		public static void CreateGraph(string recordName)
+		public static bool CreateGraph(string recordName)
 		{
-			Console.WriteLine(RunCmd.Run("graphCmd" + sep + "graphCmd.exe", csvPath + recordName + ".csv"));
+			return "OK" == RunCmd.Run("graphCmd" + sep + "graphCmd.exe", csvPath + recordName + ".csv");
 		}
 
 		public static async Task SavePdfConfig(PdfConfig pdfConfig)

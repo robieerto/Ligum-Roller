@@ -7,6 +7,7 @@ using Ligum_Roller.Controllers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 
 namespace Ligum_Roller.Pages
 {
@@ -15,9 +16,11 @@ namespace Ligum_Roller.Pages
         public IList<string> Records { get; set; }
         [BindProperty]
         public IFormFile FileUpload { get; set; }
+        private readonly ILogger _logger;
 
-        public IndexModel()
+        public IndexModel(ILogger<IndexModel> logger)
 		{
+            _logger = logger;
         }
 
         public void OnGet()
@@ -27,6 +30,7 @@ namespace Ligum_Roller.Pages
 
         public async Task<IActionResult> OnPostUpload()
         {
+            _logger.LogInformation("Data file uploaded manually");
             var timestamp = DataLayer.GetCurrentDateTimeStr();
             using (var memoryStream = new MemoryStream())
             {
@@ -39,7 +43,11 @@ namespace Ligum_Roller.Pages
                     var stringData = await reader.ReadToEndAsync();
                     if (DataLayer.ParseCsv(stringData) != null)
 					{
-                        await DataLayer.SaveRecord(stringData, timestamp);
+                        await DataLayer.SaveRecord(stringData, timestamp, _logger);
+                    }
+                    else
+					{
+                        _logger.LogError("Wrong format of data");
                     }
                 }
             }

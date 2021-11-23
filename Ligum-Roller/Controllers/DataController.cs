@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ligum_Roller.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,10 +18,18 @@ namespace Ligum_Roller.Controllers
 	[ApiController]
 	public class DataController : ControllerBase
 	{
+		private readonly ILogger _logger;
+
+		public DataController(ILogger<DataController> logger)
+		{
+			_logger = logger;
+		}
+
 		// POST data
 		[HttpPost]
 		public async Task<string> Post()
 		{
+			_logger.LogInformation("Received data {verb}", "POST");
 			//Console.WriteLine(GetAllHeadersStr());
 			using StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8);
 			var bodyData = await reader.ReadToEndAsync();
@@ -28,20 +37,21 @@ namespace Ligum_Roller.Controllers
 			// at least 2 lines - header and timestamp are expected
 			if (stringLines.Length < 2)
 			{
+				_logger.LogError("Wrong format of data");
 				return "Bad request";
 			}
 			//var timestamp = stringLines.Last();
 			var timestamp = DataLayer.GetCurrentDateTimeStr();
 			var csvData = bodyData.Remove(bodyData.LastIndexOf('\n'));
-			Console.WriteLine(timestamp);
 
 			if (DataLayer.ParseCsv(csvData) == null)
 			{
+				_logger.LogError("Wrong format of data");
 				return "Wrong format";
 			}
 
-			// save data
-			await DataLayer.SaveRecord(csvData, timestamp);
+			// save data async
+			_ = DataLayer.SaveRecord(csvData, timestamp, _logger);
 
 			return "OK";
 		}
@@ -49,18 +59,7 @@ namespace Ligum_Roller.Controllers
 		[HttpGet]
 		public string Get()
 		{
-			return "OK";
-		}
-
-		[HttpGet("/[controller]/RecreateGraphs")]
-		public string RecreateGraphs()
-		{
-			var records = DataLayer.GetAllRecords();
-			foreach (var record in records)
-			{
-				DataLayer.CreateGraph(record);
-			}
-			return "Graphs recreated";
+			return "Data endpoint";
 		}
 	}
 }

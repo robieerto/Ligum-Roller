@@ -51,13 +51,13 @@ namespace Ligum_Roller
 
 			app.UseStaticFiles(new StaticFileOptions()
 			{
-				FileProvider = new PhysicalFileProvider(DataLayer.csvPath),
+				FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), DataLayer.csvPath)),
 				RequestPath = new PathString("/data")
 			});
 
 			app.UseStaticFiles(new StaticFileOptions()
 			{
-				FileProvider = new PhysicalFileProvider(DataLayer.graphPath),
+				FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), DataLayer.graphPath)),
 				RequestPath = new PathString("/graph")
 			});
 

@@ -16,6 +16,7 @@ namespace Ligum_Roller
 	{
 		public static void Main(string[] args)
 		{
+			Directory.SetCurrentDirectory(AppContext.BaseDirectory);
 			Directory.CreateDirectory(DataLayer.csvPath);
 			Directory.CreateDirectory(DataLayer.graphPath);
 			CreateHostBuilder(args).Build().Run();
@@ -23,10 +24,6 @@ namespace Ligum_Roller
 
 		public static IHostBuilder CreateHostBuilder(string[] args) =>
 			Host.CreateDefaultBuilder(args)
-				.ConfigureAppConfiguration((hostingContext, config) =>
-				{
-					config.AddJsonFile($"{DataLayer.exeDir}appsettings.json");
-				})
 				.ConfigureLogging((hostBuilderContext, logging) =>
 				{
 					logging.AddFileLogger(options =>

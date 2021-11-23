@@ -17,8 +17,7 @@ namespace Ligum_Roller
 	{
 		public const string dateTimeFormat = "dd-MM-yyyy_HH-mm-ss";
 		public static readonly char sep = Path.DirectorySeparatorChar;
-		public static readonly string exeDir = AppContext.BaseDirectory;
-		public static readonly string dataPath = $"{exeDir}data{sep}";
+		public static readonly string dataPath = $"data{sep}";
 		public static readonly string csvPath = $"{dataPath}csv{sep}";
 		public static readonly string graphPath = $"{dataPath}graph{sep}";
 		static readonly CsvConfiguration csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture)

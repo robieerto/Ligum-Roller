@@ -39,7 +39,7 @@ namespace Ligum_Roller.Pages
 			{
 				return StatusCode(500);
 			}
-			Roller.Timestamp = DataLayer.ParseDateTime(Id);
+			Roller.Timestamp = DataLayer.ParseDateTime(Id.Split("~")[0]);
 
 			if (!string.IsNullOrEmpty(SearchString) && Roller.Measurements != null)
 			{

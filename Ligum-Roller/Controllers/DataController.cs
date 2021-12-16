@@ -44,14 +44,17 @@ namespace Ligum_Roller.Controllers
 			var timestamp = DataLayer.GetCurrentDateTimeStr();
 			var csvData = bodyData.Remove(bodyData.LastIndexOf('\n'));
 
-			if (DataLayer.ParseCsv(csvData) == null)
+			var roller = DataLayer.ParseCsv(csvData);
+			if (roller == null)
 			{
 				_logger.LogError("Wrong format of data");
 				return "Wrong format";
 			}
 
+			var id = timestamp + "~" + roller.Barcode;
+
 			// save data async
-			_ = DataLayer.SaveRecord(csvData, timestamp, _logger);
+			_ = DataLayer.SaveRecord(csvData, id, _logger);
 
 			return "OK";
 		}

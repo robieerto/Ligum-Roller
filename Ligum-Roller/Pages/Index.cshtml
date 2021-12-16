@@ -16,6 +16,9 @@
 				Merania
 			</th>
 			<th>
+				Dátum a čas
+			</th>
+			<th>
 				<a asp-page="./DeleteAllRecords">Zmazať všetko</a>
 			</th>
 			<th></th>
@@ -27,13 +30,22 @@
 		{
 		<tr>
 			<td>
-				@if ((itemDateTime = DataLayer.ParseDateTime(item)) != null)
-				{
-					<a asp-page="./Roller" asp-route-id="@item">
-						<img src="~/csv_icon.png" alt="icon" width="50" height="50" style="margin-right: 10px">
-						@itemDateTime
-					</a>
+				@{
+					var data = item.Split("~");
+					var timeDate = data[0];
+					var barcode = (data.Length > 1) ? data[1] : "";
+					if ((itemDateTime = DataLayer.ParseDateTime(timeDate)) != null)
+					{
+						var showedValue = (data.Length > 1) ? data[1] : itemDateTime.ToString();
+						<a asp-page="./Roller" asp-route-id="@item">
+							<img src="~/csv_icon.png" alt="icon" width="50" height="50" style="margin-right: 10px">
+							@showedValue 
+						</a>
+					}
 				}
+			</td>
+			<td class="text-center-vertical">
+				<a style="color: black;" asp-page="./Roller" asp-route-id="@item">@itemDateTime</a>
 			</td>
 			<td class="text-center-vertical">
 				<a asp-page="./DeleteRecord" asp-route-id="@item">Zmazať</a>

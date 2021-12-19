@@ -34,7 +34,7 @@ namespace Ligum_Roller.Pages
                 return NotFound();
             }
             Barcode = DataLayer.ParseCsvBarcode(data);
-            Timestamp = DataLayer.ParseDateTime(Id);
+            Timestamp = DataLayer.ParseDateTime(Id.Split("~")[0]);
             return Page();
         }
 

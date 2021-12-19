@@ -45,7 +45,7 @@ namespace Ligum_Roller.Controllers
 			{
 				return StatusCode(500);
 			}
-			model.Roller.Timestamp = DataLayer.ParseDateTime(Id);
+			model.Roller.Timestamp = DataLayer.ParseDateTime(Id.Split("~")[0]);
 
 			return await _generatePdf.GetPdf("Views/ProtocolPdf.cshtml", model);
 		}
@@ -71,7 +71,7 @@ namespace Ligum_Roller.Controllers
 			{
 				return StatusCode(500);
 			}
-			model.Roller.Timestamp = DataLayer.ParseDateTime(Id);
+			model.Roller.Timestamp = DataLayer.ParseDateTime(Id.Split("~")[0]);
 
 			return await _generatePdf.GetPdf("Views/ProtocolPdf.cshtml", model);
 		}

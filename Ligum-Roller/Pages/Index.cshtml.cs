@@ -41,9 +41,11 @@ namespace Ligum_Roller.Pages
                 {
                     using var reader = new StreamReader(memoryStream);
                     var stringData = await reader.ReadToEndAsync();
-                    if (DataLayer.ParseCsv(stringData) != null)
+                    var roller = DataLayer.ParseCsv(stringData);
+                    if (roller != null)
 					{
-                        await DataLayer.SaveRecord(stringData, timestamp, _logger);
+                        var id = timestamp + "~" + roller.Barcode;
+                        await DataLayer.SaveRecord(stringData, id, _logger);
                     }
                     else
 					{

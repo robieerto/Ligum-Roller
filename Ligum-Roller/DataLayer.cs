@@ -143,6 +143,38 @@ namespace Ligum_Roller
 			}
 		}
 
+		public static List<string> GetAllRecordsDates()
+		{
+			try
+			{
+				return Directory.GetFiles(csvPath)
+					.OrderByDescending(f => new FileInfo(f).CreationTime)
+					.Select(f => new FileInfo(f).CreationTime.ToShortDateString())
+					.Distinct()
+					.ToList();
+			}
+			catch (Exception)
+			{
+				return new List<string>();
+			}
+		}
+
+		public static List<string> GetRecordsByDate(string date)
+		{
+			try
+			{
+				return Directory.GetFiles(csvPath)
+					.Where(f => new FileInfo(f).CreationTime.ToShortDateString() == date)
+					.OrderByDescending(f => new FileInfo(f).CreationTime)
+					.Select(Path.GetFileNameWithoutExtension)
+					.ToList();
+			}
+			catch (Exception)
+			{
+				return new List<string>();
+			}
+		}
+
 		public static void RemoveRecord(string recordName)
 		{
 			try
@@ -156,6 +188,18 @@ namespace Ligum_Roller
 		public static void RemoveAllRecords()
 		{
 			foreach (var record in GetAllRecords())
+			{
+				try
+				{
+					RemoveRecord(record);
+				}
+				catch (Exception) { }
+			}
+		}
+
+		public static void RemoveRecordsByDate(string date)
+		{
+			foreach (var record in GetRecordsByDate(date))
 			{
 				try
 				{

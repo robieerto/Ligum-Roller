@@ -1,22 +1,21 @@
 ﻿@page
-@model IndexModel
-@{ 
-	DateTime? itemDateTime;
+@model Ligum_Roller.Pages.IndexModel
+@{
 }
 
 <form asp-page-handler="Upload" method="post" enctype="multipart/form-data">
-	<input type="file" asp-for="FileUpload" id="selectedFile" style="display: none;" onchange="this.form.submit()" />
-	<input type="button" class="btn btn-link" value="Nahrať súbor" onclick="document.getElementById('selectedFile').click();" />
+	<p style="margin-bottom: 1rem;">
+		<a class="btn btn-secondary" asp-page="./Date">Zobraziť jednotlivé merania</a>
+		<input type="file" asp-for="FileUpload" id="selectedFile" style="display: none;" onchange="this.form.submit()" />
+		<input type="button" class="btn btn-link" value="Nahrať súbor" onclick="document.getElementById('selectedFile').click();" />
+	</p>
 </form>
 
 <table class="table">
 	<thead>
 		<tr>
 			<th>
-				Merania
-			</th>
-			<th>
-				Dátum a čas
+				Dátum
 			</th>
 			<th>
 				<a asp-page="./DeleteAllRecords">Zmazať všetko</a>
@@ -26,31 +25,19 @@
 	</thead>
 	<tbody>
 		@if (Model.Records != null)
-		@foreach (var item in Model.Records)
-		{
-		<tr>
-			<td>
-				@{
-					var data = item.Split("~");
-					var timeDate = data[0];
-					var barcode = (data.Length > 1) ? data[1] : "";
-					if ((itemDateTime = DataLayer.ParseDateTime(timeDate)) != null)
-					{
-						var showedValue = (data.Length > 1) ? data[1] : itemDateTime.ToString();
-						<a asp-page="./Roller" asp-route-id="@item">
-							<img src="~/csv_icon.png" alt="icon" width="50" height="50" style="margin-right: 10px">
-							@showedValue 
+			@foreach (var item in Model.Records)
+			{
+				<tr>
+					<td>
+						<a asp-page="./Date" asp-route-id="@item">
+							<img src="~/folder_icon.png" alt="icon" width="50" height="50" style="margin-right: 10px">
+							@item
 						</a>
-					}
-				}
-			</td>
-			<td class="text-center-vertical">
-				<a style="color: black;" asp-page="./Roller" asp-route-id="@item">@itemDateTime</a>
-			</td>
-			<td class="text-center-vertical">
-				<a asp-page="./DeleteRecord" asp-route-id="@item">Zmazať</a>
-			</td>
-		</tr>
-		}
+					</td>
+					<td class="text-center-vertical">
+						<a asp-page="./DeleteRecordsByDate" asp-route-id="@item">Zmazať</a>
+					</td>
+				</tr>
+			}
 	</tbody>
 </table>

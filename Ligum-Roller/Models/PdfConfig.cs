@@ -16,6 +16,8 @@ namespace Ligum_Roller.Models
 		public string Title { get; set; }
 		[MaxLength(100)]
 		public string CompanyName { get; set; }
+		[MaxLength(100)]
+		public string Barcode { get; set; }
 		public PdfConfigValue Property1 { get; set; }
 		public PdfConfigValue Property2 { get; set; }
 		public PdfConfigValue Property3 { get; set; }

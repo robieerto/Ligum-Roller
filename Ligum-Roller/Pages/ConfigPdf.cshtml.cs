@@ -48,6 +48,7 @@ namespace Ligum_Roller.Pages
 					return StatusCode(500);
 				}
 				Roller.Timestamp = DataLayer.ParseDateTime(Id.Split("~")[0]);
+				PdfConfig.Barcode = Roller.Barcode;
 			}
 			// global config
 			else

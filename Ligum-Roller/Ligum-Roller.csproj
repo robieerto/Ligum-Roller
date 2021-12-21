@@ -8,7 +8,7 @@
     <StartupObject>Ligum_Roller.Program</StartupObject>
     <!--<RuntimeIdentifier>win7-x64</RuntimeIdentifier>-->
     <Platforms>AnyCPU;x86</Platforms>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <UserSecretsId>680dc4bc-b7df-4f97-b36b-93007d5a8b72</UserSecretsId>
     <AssemblyName>Ligum-Roller</AssemblyName>
     <ApplicationIcon />
